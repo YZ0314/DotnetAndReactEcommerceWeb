@@ -7,10 +7,10 @@ export default function App() {
    * fetch the products dtat from .net web api 
    */
   useEffect(()=>{
-    fetch('http://localhost:5000/api/products')
+    fetch('http://localhost:5000/api/Products')
     .then(Response=>Response.json())
     .then(data=>setProducts(data))
-  })
+  },[])
 
 
   return (
