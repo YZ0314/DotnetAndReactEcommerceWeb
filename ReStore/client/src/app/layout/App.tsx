@@ -3,6 +3,7 @@ import { Product } from '../models/product';
 import Catalog from '../../features/Catalog/Catalog';
 import { Container, CssBaseline, Switch, ThemeProvider, Typography, createTheme } from '@mui/material';
 import Header from '../../features/Catalog/Header';
+import { Outlet } from 'react-router-dom';
 
 
 
@@ -26,7 +27,7 @@ export default function App() {
     <CssBaseline/>
      <Header darkMode={darkMode} changeTheme={changeTheme}></Header>
      <Container>
-      <Catalog/>
+      <Outlet/>
     </Container>
     </ThemeProvider>
     
