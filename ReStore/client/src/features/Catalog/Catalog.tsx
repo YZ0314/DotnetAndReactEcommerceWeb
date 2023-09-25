@@ -15,6 +15,7 @@ export default function Catalog() {
       .then(Response=>Response.json())
       .then(data=>setProducts(data))
     },[])
+    
 
     return (
         <>
