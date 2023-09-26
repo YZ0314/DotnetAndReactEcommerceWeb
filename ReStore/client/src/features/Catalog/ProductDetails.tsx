@@ -9,12 +9,12 @@ import agent from '../../app/api/agent';
 export default function ProductDetails() {
   const { id } = useParams<{ id: string }>();
   const [product, setProduct] = useState<Product | null>(null);
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     id && agent.Catalog.details(parseInt(id))
     .then(response=>setProduct(response))
-    .catch(error=>console.log(error.response))
+    .catch(error=>console.log(error))
     .finally(()=> setLoading(false))
   }, [id]);
 
