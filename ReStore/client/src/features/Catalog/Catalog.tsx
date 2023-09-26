@@ -2,7 +2,7 @@ import React, { Fragment, useEffect, useState } from 'react'
 import { Product } from '../../app/models/product';
 import { Avatar, Button, List, ListItem, ListItemAvatar, ListItemText } from '@mui/material';
 import ProductList from './ProductList';
-
+import agent from "../../app/api/agent";
 
 export default function Catalog() {
     const[products,setProducts]=useState<Product[]>([]);
@@ -11,9 +11,7 @@ export default function Catalog() {
      * fetch the products dtat from .net web api 
      */
     useEffect(()=>{
-      fetch('http://localhost:5000/api/Products')
-      .then(Response=>Response.json())
-      .then(data=>setProducts(data))
+      agent.Catalog.list().then(products=>setProducts(products))
     },[])
     
 
