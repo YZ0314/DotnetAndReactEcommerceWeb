@@ -1,3 +1,4 @@
+
 namespace API.Entities
 {
     public class Product
@@ -10,6 +11,10 @@ namespace API.Entities
         public string Type { get; set; }
         public string Brand { get; set; }  
         public int  QuantityInStock { get; set; }
-        
+
+        public static implicit operator int(Product v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
