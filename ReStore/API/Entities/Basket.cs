@@ -15,7 +15,7 @@ namespace API.Entities
         {
             if (Items.All(item => item.ProductId != product.Id))
             {
-                Items.Add(new BasketItem { ProductId = product, Quantity = quantity });
+                Items.Add(new BasketItem { ProductId = product.Id, Quantity = quantity });
             }
             var existingItem = Items.FirstOrDefault(Item => Item.ProductId == product.Id);
             if (existingItem != null) existingItem.Quantity += quantity;
