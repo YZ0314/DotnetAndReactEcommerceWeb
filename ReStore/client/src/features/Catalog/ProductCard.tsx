@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import agent from '../../app/api/agent';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { useStoreContext } from '../../app/context/StoreContext';
+import { currencyFormat } from '../../app/util/util';
 
 interface Props {
     products: Product;
@@ -41,7 +42,7 @@ export default function ProductCard({ products }: Props) {
                         {products.brand}/{products.type}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                        ${(products.price / 100).toFixed(2)}
+                       {currencyFormat(products.price)}
                     </Typography>
                 </CardContent>
                 <CardActions>
