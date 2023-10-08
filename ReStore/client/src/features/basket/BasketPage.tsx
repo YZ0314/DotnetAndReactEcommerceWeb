@@ -51,6 +51,7 @@ export default function BasketPage() {
 
   return (
     <>
+    
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }}>
           <TableHead>
@@ -98,6 +99,7 @@ export default function BasketPage() {
         </Grid>
 
       </Grid>
+    
     </>
   )
 }
