@@ -5,6 +5,7 @@ import { NavLink } from 'react-router-dom'
 import { ShoppingCart } from '@mui/icons-material'
 import { useStoreContext } from '../../app/context/StoreContext'
 import { time } from 'console'
+import { useAppSelector } from '../../app/store/configureStore'
 
 const midLinks = [
   { title: 'catalog', path: '/catalog' },
@@ -38,7 +39,7 @@ interface Props {
 }
 
 export default function Header({ changeTheme, darkMode }: Props) {
-  const{basket}=useStoreContext(); 
+  const {basket}=useAppSelector(state=>state.basket);
   const itemCount=basket?.items.reduce((sum,item)=>sum+item.quantity,0);
   
   return (

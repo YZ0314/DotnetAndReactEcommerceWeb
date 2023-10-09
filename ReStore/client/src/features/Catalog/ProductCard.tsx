@@ -6,17 +6,19 @@ import agent from '../../app/api/agent';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { useStoreContext } from '../../app/context/StoreContext';
 import { currencyFormat } from '../../app/util/util';
+import { useAppDispatch } from '../../app/store/configureStore';
+import { setBasket } from '../basket/BasketSlice';
 
 interface Props {
     products: Product;
 }
 export default function ProductCard({ products }: Props) {
     const [loading, setLoading] = useState(false);
-    const {setBasket}=useStoreContext();
+    const dispatch=useAppDispatch();
     function handleAddItem(productId: number) {
         setLoading(true);
         agent.Basket.addItem(productId, 1)
-            .then(basket=>setBasket(basket))
+            .then(basket=>dispatch(setBasket(basket)))
             .catch(error => console.log(error))
             .finally(() => setLoading(false))
     }

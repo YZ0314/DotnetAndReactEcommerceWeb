@@ -1,12 +1,12 @@
 import { TableContainer, Paper, Table, TableBody, TableRow, TableCell, Typography } from "@mui/material";
-import { StoreContext, useStoreContext } from "../../app/context/StoreContext";
 import { useEffect, useState } from "react";
 import { currencyFormat } from "../../app/util/util";
+import { useAppSelector } from "../../app/store/configureStore";
 
 export default function BasketSummary() {
     const [subtotal, setSubtotal] = useState<number>();
-    const deliveryFee = subtotal===0||subtotal !== undefined && subtotal >=50000? 0:1000;
-    const { basket } = useStoreContext();
+    const deliveryFee = subtotal === 0 || subtotal !== undefined && subtotal >= 50000 ? 0 : 1000;
+    const { basket } = useAppSelector(s => s.basket);
     let total: number = 0;
     useEffect(() => {
         basket?.items.forEach((item) => {
@@ -34,7 +34,7 @@ export default function BasketSummary() {
                         </TableRow>
                         <TableRow>
                             <TableCell colSpan={2}>Total</TableCell>
-                            <TableCell align="right">{subtotal !== undefined&& subtotal !== 0 ? currencyFormat(deliveryFee+subtotal) : '$0.00'}</TableCell>
+                            <TableCell align="right">{subtotal !== undefined && subtotal !== 0 ? currencyFormat(deliveryFee + subtotal) : '$0.00'}</TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell>
