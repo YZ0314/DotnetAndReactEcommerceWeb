@@ -51,7 +51,7 @@ namespace API.Controllers
             var foundProduct = products.FirstOrDefault(p => p.Id == productId);
             if (foundProduct == null)
             {
-                return NotFound();
+                return BadRequest(new ProblemDetails{Title="Product Not Found"});
             }
             //add Item
             basket.AddItem(foundProduct, quantity);
