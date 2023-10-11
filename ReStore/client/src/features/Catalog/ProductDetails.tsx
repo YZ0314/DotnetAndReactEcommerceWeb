@@ -10,23 +10,23 @@ import { useStoreContext } from '../../app/context/StoreContext';
 import { LoadingButton } from '@mui/lab';
 import { useAppDispatch, useAppSelector } from '../../app/store/configureStore';
 import {addBasketItemAsync, removeBasketItemAsync, setBasket } from '../basket/BasketSlice';
+import { fetchProductAsync, productSelectors } from './catalogSlice';
 
 export default function ProductDetails() {
   const {basket,status}=useAppSelector(state=>state.basket)
   const dispatch=useAppDispatch();
   const { id } = useParams<{ id: string }>();
-  const [product, setProduct] = useState<Product | null>(null);
-  const [loading, setLoading] = useState(true);
+  const product=useAppSelector(state=>productSelectors.selectById(state,id!))
+  const {status:productStatus}=useAppSelector(state=>state.catalog)
   const[quantity,setQuantity]=useState(0);
 
   const item=basket?.items.find(i=>i.productId===product?.id)
+
   useEffect(() => {
     if(item) setQuantity(item.quantity);
-    id && agent.Catalog.details(parseInt(id))
-    .then(response=>setProduct(response))
-    .catch(error=>console.log(error))
-    .finally(()=> setLoading(false))
-  }, [id,item]);
+    if(!product &&id) dispatch(fetchProductAsync(parseInt(id)))
+
+  }, [id,item,dispatch,product]);
 
   function handleInputChange(event:React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>){
     if(parseInt(event.currentTarget.value)>=0){setQuantity(parseInt(event.currentTarget.value));}
@@ -46,7 +46,7 @@ export default function ProductDetails() {
 
   }
 
-  if (loading) return <LoadingComponent message='Loading product...'/>
+  if (productStatus.includes('pending')) return <LoadingComponent message='Loading product...'/>
   if (!product) {
     return <h3>Product not found</h3>
   }
