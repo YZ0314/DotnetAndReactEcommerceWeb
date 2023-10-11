@@ -100,8 +100,8 @@ export default function ProductDetails() {
             size='large'
             variant='contained'
             fullWidth
-            loading={status.includes('pendingRemoveItem'+item?.productId)}
-            onClick={handleUpdateCart}
+            loading={status==='pendingDeleteItem'+item?.productId||status==='pendingAdditem'+item?.productId}
+            onClick={handleUpdateCart} 
             disabled={item?.quantity===quantity || !item&&quantity===0}
             >
               {item ?'Updtate Quantity':'Add to Cart'}
