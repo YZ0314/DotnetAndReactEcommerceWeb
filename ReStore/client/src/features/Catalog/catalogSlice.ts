@@ -2,6 +2,7 @@ import { createAsyncThunk, createEntityAdapter,createSlice } from "@reduxjs/tool
 import { Product } from "../../app/models/product";
 import agent from "../../app/api/agent";
 import { RootState } from "../../app/store/configureStore";
+import { stat } from "fs";
 
 
 const productAdapter= createEntityAdapter();
@@ -30,13 +31,26 @@ export const fetchProductAsync=createAsyncThunk<Product,number>(
         }
     }
 )
+export const fetchFilters= createAsyncThunk(
+    'catalog/fetchFilters',
+    async(_,thunkAPI)=>{
+        try{
+            return agent.Catalog.fetchFilters();
 
+        }catch(error:any){
+            return thunkAPI.rejectWithValue({error:error.data});
+        }
+    }
+)
 
 export const cataLogSlice=createSlice({
     name: 'catalog',
     initialState: productAdapter.getInitialState({
         productsLoaded: false,
-        status: 'idle'
+        filtersLoaded:false,
+        status: 'idle',
+        brands:[],
+        types:[],
     }),
     reducers: {},
     extraReducers:(
@@ -68,6 +82,22 @@ export const cataLogSlice=createSlice({
                 
                 state.status='idle'
             });
+            builder.addCase(fetchFilters.pending,(state)=>{
+                state.status='pendingFetchFilters';
+
+            })
+            builder.addCase(fetchFilters.fulfilled,(state,action)=>{
+                state.brands=action.payload.brands;
+                state.types=action.payload.types;
+                state.filtersLoaded=true;
+                state.status='idle';
+            })
+
+            builder.addCase(fetchFilters.rejected,(state,action)=>{
+                state.status='idle';
+                console.log(action.payload);
+                
+            })
         }
     )
     
