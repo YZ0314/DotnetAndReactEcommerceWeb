@@ -42,7 +42,7 @@ namespace API.Extensions
             }
 
             if(!string.IsNullOrEmpty(types)){
-                typeList.AddRange(brands.ToLower().Split(",").ToList());
+                typeList.AddRange(types.ToLower().Split(",").ToList());
             }
 
             query =query.Where(p=> brandList.Count==0 || brandList.Contains(p.Brand.ToLower()));
