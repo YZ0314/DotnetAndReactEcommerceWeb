@@ -4,7 +4,7 @@ import LoadingComponent from '../../app/layout/LoadingComponent';
 import { useAppDispatch, useAppSelector } from '../../app/store/configureStore';
 import { fetchFilters, fetchProductsAsync, productSelectors } from './catalogSlice';
 import { Product } from '../../app/models/product';
-import { Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, Grid, Paper, Radio, RadioGroup, TextField } from '@mui/material';
+import { Box, Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, Grid, Pagination, Paper, Radio, RadioGroup, TextField, Typography } from '@mui/material';
 
 
 const sortOptions = [
@@ -64,6 +64,7 @@ export default function Catalog() {
             {types.map(types=>(<FormControlLabel control={<Checkbox />} label={types} key={types} />))}
           </FormGroup>
         </Paper>
+        
 
 
 
@@ -73,6 +74,19 @@ export default function Catalog() {
         <ProductList products={products as Product[]}></ProductList>
 
       </Grid>
+
+      <Grid item xs={3} />
+      <Grid item xs={9} >
+        <Box display={'flex'} justifyContent={'space-between'} alignItems={'center'}>
+          <Typography>
+            Displying 1-6 of 20 items
+          </Typography>
+          <Pagination count={10} page={2}variant="outlined" color="primary" />
+        </Box>
+      
+      </Grid>
+
+      
 
 
     </Grid>
