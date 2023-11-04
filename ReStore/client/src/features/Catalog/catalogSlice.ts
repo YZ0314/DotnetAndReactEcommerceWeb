@@ -22,8 +22,8 @@ function getAxiosParams(productParams:ProductParams){
     params.append('pageSize',productParams.pageSize.toString());
     params.append('orderBy',productParams.orderBy);
     if(productParams.searchTerm) params.append('searchTerm',productParams.searchTerm);
-    if(productParams.brands) params.append('brands',productParams.brands.toString());
-    if(productParams.types) params.append('types',productParams.types.toString());
+    if(productParams.brands.length>0) params.append('brands',productParams.brands.toString());
+    if(productParams.types.length>0) params.append('types',productParams.types.toString());
    return params;
 
 }
@@ -71,7 +71,9 @@ function initParams() {
     return {
         pageNumber: 1,
         pageSize: 6, 
-        orderBy: 'name'
+        orderBy: 'name',
+        brands:[],
+        types:[],
     }
 }
 
@@ -89,8 +91,13 @@ export const cataLogSlice = createSlice({
     reducers: {
         setProductParams:(state,action)=>{
             state.productsLoaded=false;
-            state.productParams={...state.productParams,...action.payload};
+            state.productParams={...state.productParams,...action.payload,pageNumber:1};
 
+        },
+
+        setPageNumber:(state,action)=>{
+            state.productsLoaded=false;
+            state.productParams={...state.productParams,...action.payload}
         },
 
         resetProductParams:(state)=>{
@@ -156,4 +163,4 @@ export const cataLogSlice = createSlice({
 
 export const productSelectors = productAdapter.getSelectors((state: RootState) => state.catalog)
 
-export const{setProductParams,resetProductParams,setMetaData}=cataLogSlice.actions;
+export const{setProductParams,resetProductParams,setMetaData,setPageNumber}=cataLogSlice.actions;
