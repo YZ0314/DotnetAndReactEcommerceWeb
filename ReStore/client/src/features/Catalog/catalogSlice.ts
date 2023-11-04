@@ -3,6 +3,7 @@ import { Product, ProductParams } from "../../app/models/product";
 import agent from "../../app/api/agent";
 import { RootState } from "../../app/store/configureStore";
 import { stat } from "fs";
+import { MetaData } from "../../app/models/pagination";
 
 interface CatalogState {
     productsLoaded: boolean;
@@ -11,6 +12,7 @@ interface CatalogState {
     brands: string[];
     types: string[];
     productParams: ProductParams;
+    metaData:MetaData |null;
 }
 
 const productAdapter = createEntityAdapter();
@@ -31,7 +33,9 @@ export const fetchProductsAsync = createAsyncThunk<Product[], void, {state:RootS
     async (_, thunkAPI) => {
         const params=getAxiosParams(thunkAPI.getState().catalog.productParams);
         try {
-            return await agent.Catalog.list(params)
+            const response= await agent.Catalog.list(params);
+            thunkAPI.dispatch(setMetaData(response.metaData));
+            return response.items;
 
         } catch (error) {
             return thunkAPI.rejectWithValue({ error })
@@ -61,12 +65,12 @@ export const fetchFilters = createAsyncThunk(
             return thunkAPI.rejectWithValue({ error: error.data });
         }
     }
-)
+) 
 
 function initParams() {
     return {
         pageNumber: 1,
-        pageSize: 6,
+        pageSize: 6, 
         orderBy: 'name'
     }
 }
@@ -79,7 +83,8 @@ export const cataLogSlice = createSlice({
         status: 'idle',
         brands: [],
         types: [],
-        productParams: initParams()
+        productParams: initParams(),
+        metaData:null,
     }),
     reducers: {
         setProductParams:(state,action)=>{
@@ -90,6 +95,11 @@ export const cataLogSlice = createSlice({
 
         resetProductParams:(state)=>{
             state.productParams=initParams();
+        },
+
+        setMetaData:(state,action)=>{
+            state.metaData=action.payload;
+
         }
 
 
@@ -146,4 +156,4 @@ export const cataLogSlice = createSlice({
 
 export const productSelectors = productAdapter.getSelectors((state: RootState) => state.catalog)
 
-export const{setProductParams,resetProductParams}=cataLogSlice.actions;
+export const{setProductParams,resetProductParams,setMetaData}=cataLogSlice.actions;

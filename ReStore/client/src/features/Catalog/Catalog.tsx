@@ -4,10 +4,11 @@ import LoadingComponent from '../../app/layout/LoadingComponent';
 import { useAppDispatch, useAppSelector } from '../../app/store/configureStore';
 import { fetchFilters, fetchProductsAsync, productSelectors, setProductParams } from './catalogSlice';
 import { Product } from '../../app/models/product';
-import { Box, Checkbox, FormControlLabel, FormGroup, Grid, Pagination, Paper, Typography } from '@mui/material';
+import { Box, Grid, Pagination, Paper, Typography } from '@mui/material';
 import ProductSearch from './ProductSearch';
 import RadioButtonGroup from '../../app/components/RadioButtonGroup';
 import CheckboxButtons from '../../app/components/CheckboxButtons';
+import AppPagination from '../../app/components/AppPagination';
 
 
 const sortOptions = [
@@ -18,7 +19,7 @@ const sortOptions = [
 ]
 export default function Catalog() {
   const products = useAppSelector(productSelectors.selectAll)
-  const { productsLoaded, status, filtersLoaded,brands,types,productParams} = useAppSelector(state => state.catalog)
+  const { productsLoaded, status, filtersLoaded,brands,types,productParams,metaData} = useAppSelector(state => state.catalog)
   const dispatch = useAppDispatch();
 
 
@@ -35,7 +36,7 @@ export default function Catalog() {
 
   }, [filtersLoaded, dispatch])
 
-  if (status.includes('pending')) return <LoadingComponent message='Loading products...' />
+  if (status.includes('pending')||!metaData) return <LoadingComponent message='Loading products...' />
 
   return (
     <Grid container spacing={4}>
@@ -79,12 +80,12 @@ export default function Catalog() {
 
       <Grid item xs={3} />
       <Grid item xs={9} >
-        <Box display={'flex'} justifyContent={'space-between'} alignItems={'center'}>
-          <Typography>
-            Displying 1-6 of 20 items
-          </Typography>
-          <Pagination count={10} page={2}variant="outlined" color="primary" />
-        </Box>
+        <AppPagination 
+        metaData={metaData}
+        onPageChange={(page:number)=>dispatch(setProductParams({pageNumber:page}))}
+
+        />
+
       
       </Grid>
 
