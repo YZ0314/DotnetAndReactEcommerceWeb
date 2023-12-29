@@ -66,6 +66,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     };
 });
 builder.Services.AddAuthorization();
+builder.Services.AddScoped<ProductService>();
 builder.Services.AddScoped<TokenService>();
 var app = builder.Build();
 

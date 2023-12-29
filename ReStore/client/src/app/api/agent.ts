@@ -50,8 +50,8 @@ axios.interceptors.response.use( async response => {
 
 const request = {
     get: (url: string,params?:URLSearchParams) => axios.get(url,{params}).then(responseBody),
-    post: (url: string, body: {}) => axios.post(url).then(responseBody),
-    put: (url: string, body: {}) => axios.put(url).then(responseBody),
+    post: (url: string, body: {}) => axios.post(url,body).then(responseBody),
+    put: (url: string, body: {}) => axios.put(url,body).then(responseBody),
     delete: (url: string) => axios.delete(url).then(responseBody),
 }
 
@@ -76,10 +76,17 @@ const Basket={
     removeItem:(productId:number,quantity:number)=> request.delete(`basket?productId=${productId}&quantity=${quantity}`),
 }
 
+const Account={
+    login:(values: any)=>request.post('account/login',values),
+    register:(values: any)=>request.post('account/register',values),
+    currentUser:()=>request.get('account/currentUser'),
+}
+
 const agent = {
     Catalog,
     TestErrors,
     Basket,
+    Account,
 }
 
 export default agent;

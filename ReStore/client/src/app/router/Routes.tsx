@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { Navigate, createBrowserRouter } from "react-router-dom";
 import App from "../layout/App";
 import HomePage from "../../features/home/homePage";
 import Catalog from "../../features/Catalog/Catalog";
@@ -7,6 +7,8 @@ import AboutPage from "../../features/about/AboutPage";
 import ContactPage from "../../features/contact/ContactPage";
 import BasketPage from "../../features/basket/BasketPage";
 import CheckoutPage from "../../features/checkout/CheckoutPage";
+import Register from "../../features/account/Register";
+import Login from "../../features/account/Login";
 
 export const router =createBrowserRouter([
     {
@@ -19,7 +21,10 @@ export const router =createBrowserRouter([
             {path:'about',element:<AboutPage></AboutPage>},
             {path:'contact',element:<ContactPage></ContactPage>},
             {path:'basket',element:<BasketPage></BasketPage>},
-            {path:'checkout',element:<CheckoutPage></CheckoutPage>}
+            {path:'checkout',element:<CheckoutPage></CheckoutPage>},
+            {path:'login',element:<Login></Login>},
+            {path:'register',element:<Register></Register>},
+            {path:'*',element:<Navigate replace to='/not-found'/>}
         ]
     }
 ])
