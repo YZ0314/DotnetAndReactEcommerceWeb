@@ -12,7 +12,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import agent from '../../app/api/agent';
 import { error } from 'console';
 import { FieldValues, useForm } from 'react-hook-form';
@@ -28,6 +28,7 @@ const defaultTheme = createTheme();
 
 export default function Login() {
     const dispatch=useAppDispatch();
+    const location=useLocation();
 
     const navigate=useNavigate();
     const { register, handleSubmit, formState: { isSubmitting,errors,isValid } } = useForm({
@@ -36,7 +37,7 @@ export default function Login() {
     async function submitForm(data: FieldValues) {
        
       const islogin=  await dispatch(signInUser(data));
-     if(islogin.meta.requestStatus==='fulfilled') navigate('/catalog');
+     if(islogin.meta.requestStatus==='fulfilled') navigate(location.state?.from || '/catalog');
     }
 
 
