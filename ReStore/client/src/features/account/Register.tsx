@@ -32,30 +32,31 @@ interface ErrorMessages {
 }
 
 export default function Register() {
-  const navigate= useNavigate();
-  const { register, handleSubmit,setError, formState: { isSubmitting, errors, isValid } } = useForm({
+  const navigate = useNavigate();
+  const { register, handleSubmit, setError, formState: { isSubmitting, errors, isValid } } = useForm({
     mode: 'onTouched'
   });
- 
-  function handleApiErrors(errors: any){
-    
 
-    if(errors){
+  function handleApiErrors(errors: any) {
+
+
+    if (errors) {
       const errorsAnnotation: ErrorMessages = errors;
-      
-      for (const [errorType,messages] of Object.entries(errorsAnnotation)){
-    for ( const message of messages) {
-      if(message.includes('Password')){
-        setError('password',{message:message})
-      }else if(message.includes('Email')){
-        setError('email',{message:message})
-      }else if(message.includes('Username')){
-        setError('username',{message:message})
-      }
 
-      };
+      for (const [errorType, messages] of Object.entries(errorsAnnotation)) {
+        for (const message of messages) {
+          if (message.includes('Password')) {
+            setError('password', { message: message })
+          } else if (message.includes('Email')) {
+            setError('email', { message: message })
+          } else if (message.includes('Username')) {
+            setError('username', { message: message })
+          }
+//Explicitly provide type annotations for the errors object and messages array,
+//Iterates over the key-value pairs of errors obtained by the request made.
+        };
+      }
     }
-  }
   }
 
   return (
@@ -77,10 +78,10 @@ export default function Register() {
             Register
           </Typography>
           <Box component="form" onSubmit={handleSubmit(data => agent.Account.register(data)
-          .then(()=>{
-            toast.success('Registration successful - you can now login')
-            navigate('/login')
-          })
+            .then(() => {
+              toast.success('Registration successful - you can now login')
+              navigate('/login')
+            })
             .catch(errors => handleApiErrors(errors.data.errors)))} noValidate sx={{ mt: 1 }}>
             <TextField
               margin="normal"
@@ -99,12 +100,13 @@ export default function Register() {
               fullWidth
               label="Email"
               autoFocus
-              {...register('email', { required: 'Email is required',
-            pattern:{
-              value:/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/,
-              message:'Not a valid email address' 
-            }
-            })}
+              {...register('email', {
+                required: 'Email is required',
+                pattern: {
+                  value: /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/,
+                  message: 'Not a valid email address'
+                }
+              })}
               error={!!errors.email}
               helperText={errors?.email?.message as string}
             />
@@ -116,7 +118,8 @@ export default function Register() {
 
               label="Password"
               type="password"
-              {...register('password', { required: 'Password is required' 
+              {...register('password', {
+                required: 'Password is required'
               })}
               error={!!errors.password}
               helperText={errors?.password?.message as string}

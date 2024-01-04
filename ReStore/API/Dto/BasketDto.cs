@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using API.Entities;
 
 namespace API.Dto
 {
@@ -10,5 +11,10 @@ namespace API.Dto
         public int Id { get; set; }
         public string BuyerId { get; set; }
         public List<BasketItemDto> Items { get; set; }
+
+        public static implicit operator BasketDto(Basket v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
